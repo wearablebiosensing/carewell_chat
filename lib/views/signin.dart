@@ -1,4 +1,5 @@
 import 'package:chat_application/widgets/widget.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -20,17 +21,9 @@ class _SignInState extends State<SignIn> {
           padding: EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "email",
-                  hintStyle: TextStyle(color: Colors.white54),
-                ),
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    hintText: "password",
-                    hintStyle: TextStyle(color: Colors.white54)),
-              ),
+
+              textField("email"),
+              textField("password"),
             ],
           ),
         ));
