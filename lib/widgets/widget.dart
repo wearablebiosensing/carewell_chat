@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
-Widget appBarMain(BuildContext context) {
+PreferredSizeWidget appBarMain(BuildContext context) {
   return AppBar();
 }
