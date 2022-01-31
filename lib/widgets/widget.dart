@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
-Widget appBarMain(BuildContext context) {
-  return AppBar();
+PreferredSizeWidget appBarMain(BuildContext context) {
+  return AppBar(
+    backgroundColor: Colors.blue[700],
+    title: new Text("Carewell Chat"),
+  );
 }
