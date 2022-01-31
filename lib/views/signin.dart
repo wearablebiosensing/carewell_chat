@@ -1,5 +1,4 @@
 import 'package:chat_application/widgets/widget.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -14,10 +13,11 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     var context2 = context;
     return Scaffold(
-        appBar: new AppBar(
-          backgroundColor: Colors.blue[700],
-          title: new Text("Carewell Chat"),
-        ),
+        // appBar: new AppBar(
+        //   backgroundColor: Colors.blue[700],
+        //   title: new Text("Carewell Chat"),
+        // ),
+        appBar: appBarMain(context),
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 24),
           child: Column(
