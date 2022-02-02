@@ -27,6 +27,9 @@ class _SignUpState extends State<SignUp> {
           padding: EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
+              SizedBox(
+                height: 300,
+              ),
               //Make these all have controller: properties
               textField("username"),
               textField("email"),

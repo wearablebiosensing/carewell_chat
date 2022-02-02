@@ -22,6 +22,9 @@ class _SignInState extends State<SignIn> {
           padding: EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
+              SizedBox(
+                height: 300,
+              ),
               textField("email"),
               textField("password"),
               SizedBox(
