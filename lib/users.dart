@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_chat_example/data.dart';
-import 'package:firebase_chat_example/model/message.dart';
-import 'package:firebase_chat_example/model/user.dart';
+import 'package:chat_application/data.dart';
+import 'package:chat_application/message.dart';
+import 'package:chat_application/users.dart';
 
 import '../utils.dart';
 
