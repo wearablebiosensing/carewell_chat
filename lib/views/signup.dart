@@ -10,8 +10,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  TextEditingController userNameTextEditingController =
-      new TextEditingController();
+  // TextEditingController userNameTextEditingController =
+  //  new TextEditingController();
 
   TextEditingController emailTextEditingController =
       new TextEditingController();
@@ -28,9 +28,21 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             children: [
               //Make these all have controller: properties
-              textField("username"),
-              textField("email"),
-              textField("password"),
+              TextField(
+                controller: emailTextEditingController,
+                decoration: InputDecoration(
+                    hintText: "Email",
+                    hintStyle: TextStyle(color: Colors.grey[500])),
+              ),
+
+              TextField(
+                controller: passwordTextEditingController,
+                decoration: InputDecoration(
+                    hintText: "Password",
+                    hintStyle: TextStyle(color: Colors.grey[500])),
+              ),
+              //textField("email"),
+              //textField("password"),
 
               SizedBox(
                 height: 8,
@@ -48,30 +60,64 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 height: 8,
               ),
-              Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(vertical: 20),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        //blue color background
-                        colors: [Color(0xff007EF4), Color(0xff2A75BC)]),
-                    borderRadius: BorderRadius.circular(30)),
-                child: Text("Sign Up",
-                    style: new TextStyle(color: Colors.white70, fontSize: 17)),
+
+              GestureDetector(
+                onTap: () {
+                  final String email = emailTextEditingController.text.trim();
+                  final String password =
+                      passwordTextEditingController.text.trim();
+
+                  if (email.isEmpty) {
+                    print("Email is empty");
+                  } else {
+                    if (password.isEmpty) {
+                      print("Password is empty");
+                    }
+                  }
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          //blue color background
+                          colors: [Color(0xff007EF4), Color(0xff2A75BC)]),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Text("Sign Up",
+                      style:
+                          new TextStyle(color: Colors.white70, fontSize: 17)),
+                ),
               ),
               SizedBox(
                 height: 16,
               ),
-              Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(vertical: 20),
-                decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(30)),
-                child: Text("Sign Up with Google",
-                    style: new TextStyle(color: Colors.black87, fontSize: 17)),
+
+              GestureDetector(
+                onTap: () {
+                  final String email = emailTextEditingController.text.trim();
+                  final String password =
+                      passwordTextEditingController.text.trim();
+
+                  if (email.isEmpty) {
+                    print("Email is empty");
+                  } else {
+                    if (password.isEmpty) {
+                      print("Password is empty");
+                    }
+                  }
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Text("Sign Up with Google",
+                      style:
+                          new TextStyle(color: Colors.black87, fontSize: 17)),
+                ),
               ),
               SizedBox(
                 height: 16,
