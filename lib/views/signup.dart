@@ -79,6 +79,8 @@ class _SignUpState extends State<SignUp> {
                       if (password.isEmpty) {
                         print("Password is empty");
                       } else {
+                        //context.read<AuthService>().login(email, password); This is proper authentication
+
                         FirebaseFirestore.instance
                             .collection('Users')
                             .add({'username': email, 'password': password});
