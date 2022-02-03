@@ -81,7 +81,7 @@ class _SignUpState extends State<SignUp> {
                       } else {
                         FirebaseFirestore.instance
                             .collection('Users')
-                            .add({'username': email});
+                            .add({'username': email, 'password': password});
                       }
                     }
                   },
@@ -115,6 +115,10 @@ class _SignUpState extends State<SignUp> {
                     } else {
                       if (password.isEmpty) {
                         print("Password is empty");
+                      } else {
+                        FirebaseFirestore.instance
+                            .collection('Users')
+                            .add({'username': email, 'password': password});
                       }
                     }
                   },
