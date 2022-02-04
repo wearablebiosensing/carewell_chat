@@ -1,5 +1,8 @@
+import 'package:chat_application/views/chatRoomsScreen.dart';
+import 'package:chat_application/views/search.dart';
 import 'package:chat_application/views/signin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_application/widgets/widget.dart';
 import 'package:chat_application/services/auth_services.dart';
@@ -79,13 +82,29 @@ class _SignUpState extends State<SignUp> {
                       if (password.isEmpty) {
                         print("Password is empty");
                       } else {
-                        //context.read<AuthService>().login(email, password); This is proper authentication
+                        context
+                            .read<AuthService>()
+                            .login(email, password)
+                            .then((value) async {
+                          User? user = FirebaseAuth.instance.currentUser;
 
-                        FirebaseFirestore.instance
+                          await FirebaseFirestore.instance
+                              .collection('Users')
+                              .doc(user?.uid)
+                              .set({
+                            'uid': user?.uid,
+                            'email': email,
+                            'password': password,
+                          });
+                        });
+
+                        /*  FirebaseFirestore.instance
                             .collection('Users')
-                            .add({'username': email, 'password': password});
+                            .add({'username': email, 'password': password}); */
+
                       }
                     }
+                    ChatRoom();
                   },
                   child: Container(
                     alignment: Alignment.center,
