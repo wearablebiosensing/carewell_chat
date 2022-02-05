@@ -42,6 +42,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(MyApp());
 }
 
@@ -59,46 +60,42 @@ void main() async {
 //   }
 // }
 
-class AuthWrapper extends StatelessWidget {
+class AuthWrapper extends StatefulWidget {
   const AuthWrapper({Key? key}) : super(key: key);
 
   @override
+  _AuthWrapperState createState() => _AuthWrapperState();
+}
+
+class _AuthWrapperState extends State<AuthWrapper> {
+  @override
   Widget build(BuildContext context) {
-    // final user = context.watch<User?>();
-
-    // if (user == null) {
-    //   return SignUp();
-    // }
-    // return ChatRoom();
-
     bool signedIn = false;
 
-    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    //   if (user == null) {
-    //     //signedIn = false;
-    //     print('User is currently signed out!');
-    //   } else {
-    //     //signedIn = true;
-    //     print('User is signed in!');
-    //   }
-    // });
-
-    //if (FirebaseAuth.instance.currentUser != null) {
     if (chatuser != null) {
-      // wrong call in wrong place!
-      // Navigator.of(context)
-      //     .pushReplacement(MaterialPageRoute(builder: (context) => ChatRoom()));
-      print("signed in as: " + chatuser.);
+      print("signed in as: " + email);
       return ChatRoom();
     }
     return SignUp();
-
-    // if (!signedIn) {
-    //   return SignUp();
-    // }
-    // return ChatRoom();
   }
 }
+
+// class AuthWrapper extends StatefulWidget {
+//   const AuthWrapper({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+
+//     bool signedIn = false;
+
+//     if (chatuser != null) {
+
+//       print("signed in as: " + email);
+//       return ChatRoom();
+//     }
+//     return SignUp();
+//   }
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

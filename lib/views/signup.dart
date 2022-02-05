@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 FirebaseAuth chatuser = FirebaseAuth.instance;
+String username = '';
+String email = 'Not actually signed in';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -74,7 +76,7 @@ class _SignUpState extends State<SignUp> {
 
                 GestureDetector(
                   onTap: () {
-                    final String email = emailTextEditingController.text.trim();
+                    email = emailTextEditingController.text.trim();
                     final String password =
                         passwordTextEditingController.text.trim();
 
