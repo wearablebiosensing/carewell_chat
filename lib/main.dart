@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:chat_application/auth.dart';
 import 'package:chat_application/auth_provider.dart';
@@ -21,20 +22,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
-
-
-
-
-
-
+*/
 
 //old main
-/*
-
-
-
 
 import 'package:chat_application/services/auth_services.dart';
 import 'package:chat_application/views/signin.dart';
@@ -93,16 +83,20 @@ class AuthWrapper extends StatelessWidget {
     //   }
     // });
 
-    if (FirebaseAuth.instance.currentUser != null) {
+    //if (FirebaseAuth.instance.currentUser != null) {
+    if (chatuser != null) {
       // wrong call in wrong place!
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => ChatRoom()));
+      // Navigator.of(context)
+      //     .pushReplacement(MaterialPageRoute(builder: (context) => ChatRoom()));
+      print("signed in as: " + chatuser.);
+      return ChatRoom();
     }
+    return SignUp();
 
-    if (!signedIn) {
-      return SignUp();
-    }
-    return ChatRoom();
+    // if (!signedIn) {
+    //   return SignUp();
+    // }
+    // return ChatRoom();
   }
 }
 
@@ -148,5 +142,3 @@ class MyApp extends StatelessWidget {
     ); */
   }
 }
-
-*/

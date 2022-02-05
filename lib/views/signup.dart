@@ -9,6 +9,8 @@ import 'package:chat_application/services/auth_services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+FirebaseAuth chatuser = FirebaseAuth.instance;
+
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -86,13 +88,13 @@ class _SignUpState extends State<SignUp> {
                             .read<AuthService>()
                             .login(email, password)
                             .then((value) async {
-                          User? user = FirebaseAuth.instance.currentUser;
+                          chatuser = FirebaseAuth.instance;
 
                           await FirebaseFirestore.instance
                               .collection('Users')
-                              .doc(user?.uid)
+                              .doc(chatuser.currentUser?.uid)
                               .set({
-                            'uid': user?.uid,
+                            'uid': chatuser.currentUser?.uid,
                             'email': email,
                             'password': password,
                           });
@@ -104,7 +106,7 @@ class _SignUpState extends State<SignUp> {
 
                       }
                     }
-                    ChatRoom();
+                    // ChatRoom();
                   },
                   child: Container(
                     alignment: Alignment.center,
