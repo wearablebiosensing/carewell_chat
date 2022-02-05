@@ -17,14 +17,51 @@ void main() async {
   runApp(MyApp());
 }
 
+// class AuthWrapper extends StatelessWidget {
+//   const AuthWrapper({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final user = context.watch<User?>();
+
+//     if (user == null) {
+//       return SignUp();
+//     }
+//     return ChatRoom();
+//   }
+// }
+
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<User?>();
+    // final user = context.watch<User?>();
 
-    if (user == null) {
+    // if (user == null) {
+    //   return SignUp();
+    // }
+    // return ChatRoom();
+
+    bool signedIn = false;
+
+    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    //   if (user == null) {
+    //     //signedIn = false;
+    //     print('User is currently signed out!');
+    //   } else {
+    //     //signedIn = true;
+    //     print('User is signed in!');
+    //   }
+    // });
+
+    if (FirebaseAuth.instance.currentUser != null) {
+      // wrong call in wrong place!
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => ChatRoom()));
+    }
+
+    if (!signedIn) {
       return SignUp();
     }
     return ChatRoom();
