@@ -1,3 +1,41 @@
+import 'package:flutter/material.dart';
+import 'package:chat_application/auth.dart';
+import 'package:chat_application/auth_provider.dart';
+import 'package:chat_application/root_page.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AuthProvider(
+      auth: Auth(),
+      child: MaterialApp(
+        title: 'Flutter login demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: RootPage(),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+//old main
+/*
+
+
+
+
 import 'package:chat_application/services/auth_services.dart';
 import 'package:chat_application/views/signin.dart';
 import 'package:chat_application/views/signup.dart';
@@ -110,3 +148,5 @@ class MyApp extends StatelessWidget {
     ); */
   }
 }
+
+*/
