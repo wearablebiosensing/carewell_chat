@@ -1,7 +1,17 @@
-import 'package:chat_application/widgets/widget.dart';
-import 'package:flutter/material.dart';
+import 'package:chat_application/views/chatRoomsScreen.dart';
+import 'package:chat_application/views/search.dart';
+import 'package:chat_application/views/signin.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:chat_application/widgets/widget.dart';
+import 'package:chat_application/services/auth_services.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+FirebaseAuth chatuser = FirebaseAuth.instance;
+String username = '';
+String email = 'Not actually signed in';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -11,6 +21,9 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  // TextEditingController userNameTextEditingController =
+  //  new TextEditingController();
+
   TextEditingController emailTextEditingController =
       new TextEditingController();
 
@@ -19,30 +32,30 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    var context2 = context;
     return Scaffold(
-        // appBar: new AppBar(
-        //   backgroundColor: Colors.blue[700],
-        //   title: new Text("Carewell Chat"),
-        // ),
         appBar: appBarMain(context),
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 24),
           child: SingleChildScrollView(
             child: Column(
               children: [
+                //Make these all have controller: properties
                 TextField(
                   controller: emailTextEditingController,
                   decoration: InputDecoration(
                       hintText: "Email",
                       hintStyle: TextStyle(color: Colors.grey[500])),
                 ),
+
                 TextField(
                   controller: passwordTextEditingController,
                   decoration: InputDecoration(
                       hintText: "Password",
                       hintStyle: TextStyle(color: Colors.grey[500])),
                 ),
+                //textField("email"),
+                //textField("password"),
+
                 SizedBox(
                   height: 8,
                 ),
@@ -60,32 +73,121 @@ class _SignInState extends State<SignIn> {
                 SizedBox(
                   height: 8,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          //blue color background
-                          colors: [Color(0xff007EF4), Color(0xff2A75BC)]),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Text("Sign In",
-                      style:
-                          new TextStyle(color: Colors.white70, fontSize: 17)),
+
+                GestureDetector(
+                  onTap: () async {
+                    final String email = emailTextEditingController.text.trim();
+
+                    final String password =
+                        passwordTextEditingController.text.trim();
+
+                    if (email.isEmpty) {
+                      print("Email is empty");
+                    } else {
+                      if (password.isEmpty) {
+                        print("Password is empty");
+                      } else {
+                        FirebaseAuth.instance
+                            .authStateChanges()
+                            .listen((User? user) {
+                          if (user == null) {
+                            print('User is currently signed out!');
+                          } else {
+                            print('User is signed in!');
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatRoom()),
+                            );
+                          }
+                        });
+
+                        try {
+                          UserCredential userCredential = await FirebaseAuth
+                              .instance
+                              .signInWithEmailAndPassword(
+                                  email: email, password: password);
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'user-not-found') {
+                            print('No user found for that email.');
+                          } else if (e.code == 'wrong-password') {
+                            print('Wrong password provided for that user.');
+                          }
+                        }
+
+                        /* context
+                            .read<AuthService>()
+                            .login(email, password)
+                            .then((value) async {
+                          chatuser = FirebaseAuth.instance;
+
+                          await FirebaseFirestore.instance
+                              .collection('Users')
+                              .doc(chatuser.currentUser?.uid)
+                              .set({
+                            'uid': chatuser.currentUser?.uid,
+                            'email': email,
+                            'password': password,
+                          });
+                        }); */
+
+                        /*  FirebaseFirestore.instance
+                            .collection('Users')
+                            .add({'username': email, 'password': password}); */
+
+                      }
+                    }
+                    // ChatRoom();
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    decoration: BoxDecoration(
+                        // ignore: prefer_const_constructors
+                        gradient: LinearGradient(
+                            //blue color background
+                            colors: [Color(0xff007EF4), Color(0xff2A75BC)]),
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Text("Sign In",
+                        style:
+                            new TextStyle(color: Colors.white70, fontSize: 17)),
+                  ),
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Text("Sign In with Google",
-                      style:
-                          new TextStyle(color: Colors.black87, fontSize: 17)),
+
+                GestureDetector(
+                  onTap: () {
+                    final String email = emailTextEditingController.text.trim();
+                    final String password =
+                        passwordTextEditingController.text.trim();
+
+                    if (email.isEmpty) {
+                      print("Email is empty");
+                    } else {
+                      if (password.isEmpty) {
+                        print("Password is empty");
+                      } else {
+                        FirebaseFirestore.instance
+                            .collection('Users')
+                            .add({'username': email, 'password': password});
+                      }
+                    }
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Text("Sign Up with Google",
+                        style:
+                            new TextStyle(color: Colors.black87, fontSize: 17)),
+                  ),
                 ),
                 SizedBox(
                   height: 16,
@@ -108,11 +210,4 @@ class _SignInState extends State<SignIn> {
           ),
         ));
   }
-}
-
-TextField textField(String text) {
-  return TextField(
-    decoration: InputDecoration(
-        hintText: text, hintStyle: TextStyle(color: Colors.grey[500])),
-  );
 }
