@@ -70,12 +70,6 @@ class AuthWrapper extends StatefulWidget {
 class _AuthWrapperState extends State<AuthWrapper> {
   @override
   Widget build(BuildContext context) {
-    bool signedIn = false;
-
-    if (chatuser != null) {
-      print("signed in as: " + email);
-      return ChatRoom();
-    }
     return SignUp();
   }
 }

@@ -75,7 +75,6 @@ class _SignUpState extends State<SignUp> {
                 ),
 
                 GestureDetector(
-
                   onTap: () async {
                     final String email = emailTextEditingController.text.trim();
 
