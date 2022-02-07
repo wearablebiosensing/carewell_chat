@@ -75,8 +75,10 @@ class _SignUpState extends State<SignUp> {
                 ),
 
                 GestureDetector(
-                  onTap: () {
-                    email = emailTextEditingController.text.trim();
+
+                  onTap: () async {
+                    final String email = emailTextEditingController.text.trim();
+
                     final String password =
                         passwordTextEditingController.text.trim();
 
@@ -86,7 +88,40 @@ class _SignUpState extends State<SignUp> {
                       if (password.isEmpty) {
                         print("Password is empty");
                       } else {
-                        context
+                        FirebaseAuth.instance
+                            .authStateChanges()
+                            .listen((User? user) {
+                          if (user == null) {
+                            print('User is currently signed out!');
+                          } else {
+                            print('User is signed in!');
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatRoom()),
+                            );
+                          }
+                        });
+
+                        try {
+                          UserCredential userCredential = await FirebaseAuth
+                              .instance
+                              .createUserWithEmailAndPassword(
+                            email: email,
+                            password: password,
+                          );
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
+                            print('The password provided is too weak.');
+                          } else if (e.code == 'email-already-in-use') {
+                            print('The account already exists for that email.');
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+
+                        /* context
                             .read<AuthService>()
                             .login(email, password)
                             .then((value) async {
@@ -100,7 +135,7 @@ class _SignUpState extends State<SignUp> {
                             'email': email,
                             'password': password,
                           });
-                        });
+                        }); */
 
                         /*  FirebaseFirestore.instance
                             .collection('Users')
