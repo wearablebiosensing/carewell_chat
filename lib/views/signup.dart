@@ -23,9 +23,6 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  // TextEditingController userNameTextEditingController =
-  //  new TextEditingController();
-
   TextEditingController emailTextEditingController =
       new TextEditingController();
 
@@ -55,8 +52,6 @@ class _SignUpState extends State<SignUp> {
                       hintText: "Password",
                       hintStyle: TextStyle(color: Colors.grey[500])),
                 ),
-                //textField("email"),
-                //textField("password"),
 
                 SizedBox(
                   height: 8,
@@ -134,27 +129,6 @@ class _SignUpState extends State<SignUp> {
                         } catch (e) {
                           print(e);
                         }
-
-                        /* context
-                            .read<AuthService>()
-                            .login(email, password)
-                            .then((value) async {
-                          chatuser = FirebaseAuth.instance;
-
-                          await FirebaseFirestore.instance
-                              .collection('Users')
-                              .doc(chatuser.currentUser?.uid)
-                              .set({
-                            'uid': chatuser.currentUser?.uid,
-                            'email': email,
-                            'password': password,
-                          });
-                        }); */
-
-                        /*  FirebaseFirestore.instance
-                            .collection('Users')
-                            .add({'username': email, 'password': password}); */
-
                       }
                     }
                     // ChatRoom();
