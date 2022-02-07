@@ -13,6 +13,10 @@ FirebaseAuth chatuser = FirebaseAuth.instance;
 String username = '';
 String email = 'Not actually signed in';
 
+//Create a database methods file which will update with the user's information.
+//38:00 pt 2 flutter chat app tutorial video
+//I don't think you need to store passwords in firebase
+
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
