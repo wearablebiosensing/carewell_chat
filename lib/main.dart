@@ -70,7 +70,7 @@ class AuthWrapper extends StatefulWidget {
 class _AuthWrapperState extends State<AuthWrapper> {
   @override
   Widget build(BuildContext context) {
-    return SignUp();
+    return SignIn();
   }
 }
 
