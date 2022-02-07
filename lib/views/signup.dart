@@ -131,7 +131,6 @@ class _SignUpState extends State<SignUp> {
                         }
                       }
                     }
-                    // ChatRoom();
                   },
                   child: Container(
                     alignment: Alignment.center,
