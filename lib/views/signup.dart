@@ -93,36 +93,37 @@ class _SignUpState extends State<SignUp> {
                       } else {
                         FirebaseAuth.instance
                             .authStateChanges()
-                            .listen((User? user) {
+                            .listen((User? user) async {
                           if (user == null) {
                             print('User is currently signed out!');
                           } else {
                             print('User is signed in!');
 
-                            Navigator.push(
+                            try {
+                              UserCredential userCredential = await FirebaseAuth
+                                  .instance
+                                  .createUserWithEmailAndPassword(
+                                email: email,
+                                password: password,
+                              );
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'weak-password') {
+                                print('The password provided is too weak.');
+                              } else if (e.code == 'email-already-in-use') {
+                                print(
+                                    'The account already exists for that email.');
+                              }
+                            } catch (e) {
+                              print(e);
+                            }
+
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChatRoom()),
                             );
                           }
                         });
-
-                        try {
-                          UserCredential userCredential = await FirebaseAuth
-                              .instance
-                              .createUserWithEmailAndPassword(
-                            email: email,
-                            password: password,
-                          );
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            print('The password provided is too weak.');
-                          } else if (e.code == 'email-already-in-use') {
-                            print('The account already exists for that email.');
-                          }
-                        } catch (e) {
-                          print(e);
-                        }
 
                         /* context
                             .read<AuthService>()
@@ -139,11 +140,9 @@ class _SignUpState extends State<SignUp> {
                             'password': password,
                           });
                         }); */
-
-                        /*  FirebaseFirestore.instance
+                        FirebaseFirestore.instance
                             .collection('Users')
-                            .add({'username': email, 'password': password}); */
-
+                            .add({'username': email});
                       }
                     }
                     // ChatRoom();

@@ -1,6 +1,7 @@
 import 'package:chat_application/views/chatRoomsScreen.dart';
 import 'package:chat_application/views/search.dart';
 import 'package:chat_application/views/signin.dart';
+import 'package:chat_application/views/userinfo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -89,32 +90,32 @@ class _SignInState extends State<SignIn> {
                       } else {
                         FirebaseAuth.instance
                             .authStateChanges()
-                            .listen((User? user) {
+                            .listen((User? user) async {
                           if (user == null) {
                             print('User is currently signed out!');
                           } else {
                             print('User is signed in!');
 
-                            Navigator.push(
+                            try {
+                              UserCredential userCredential = await FirebaseAuth
+                                  .instance
+                                  .signInWithEmailAndPassword(
+                                      email: email, password: password);
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'user-not-found') {
+                                print('No user found for that email.');
+                              } else if (e.code == 'wrong-password') {
+                                print('Wrong password provided for that user.');
+                              }
+                            }
+
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChatRoom()),
+                                  builder: (context) => UserInformation()),
                             );
                           }
                         });
-
-                        try {
-                          UserCredential userCredential = await FirebaseAuth
-                              .instance
-                              .signInWithEmailAndPassword(
-                                  email: email, password: password);
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'user-not-found') {
-                            print('No user found for that email.');
-                          } else if (e.code == 'wrong-password') {
-                            print('Wrong password provided for that user.');
-                          }
-                        }
 
                         /* context
                             .read<AuthService>()
@@ -132,10 +133,9 @@ class _SignInState extends State<SignIn> {
                           });
                         }); */
 
-                        /*  FirebaseFirestore.instance
+                        FirebaseFirestore.instance
                             .collection('Users')
-                            .add({'username': email, 'password': password}); */
-
+                            .add({'username': email});
                       }
                     }
                     // ChatRoom();
