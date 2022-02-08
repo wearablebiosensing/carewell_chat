@@ -1,4 +1,6 @@
 import 'package:chat_application/views/chatRoomsScreen.dart';
+import 'package:chat_application/views/dataBaseMethods.dart';
+import 'package:chat_application/views/helperfunctions.dart';
 import 'package:chat_application/views/search.dart';
 import 'package:chat_application/views/signin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,6 +23,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  DataBaseMethods dataBaseMethods = new DataBaseMethods();
   // TextEditingController userNameTextEditingController =
   //  new TextEditingController();
 
@@ -29,6 +32,8 @@ class _SignInState extends State<SignIn> {
 
   TextEditingController passwordTextEditingController =
       new TextEditingController();
+
+  late QuerySnapshot snapshotUserInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +100,26 @@ class _SignInState extends State<SignIn> {
                           } else {
                             print('User is signed in!');
 
-                            Navigator.push(
+                            Map<String, String> userInfoMap = {
+                              "email": email,
+                              // "password" : password not saving password for time being
+                            };
+
+                            HelperFunctions.saveUserEmailSharedPreference(
+                                email);
+
+                            dataBaseMethods.uploadUserInfo(userInfoMap);
+
+                            HelperFunctions.saveUserLoggedInSharedPreference(
+                                true);
+
+                            dataBaseMethods.getUserByEmail(email).then((val) {
+                              snapshotUserInfo = val;
+                              HelperFunctions.saveUserEmailSharedPreference(
+                                  snapshotUserInfo.docs[0].data().toString());
+                            });
+
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChatRoom()),
@@ -173,7 +197,7 @@ class _SignInState extends State<SignIn> {
                       } else {
                         FirebaseFirestore.instance
                             .collection('Users')
-                            .add({'username': email, 'password': password});
+                            .add({'username': email});
                       }
                     }
                   },

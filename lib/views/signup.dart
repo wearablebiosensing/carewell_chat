@@ -1,4 +1,6 @@
 import 'package:chat_application/views/chatRoomsScreen.dart';
+import 'package:chat_application/views/dataBaseMethods.dart';
+import 'package:chat_application/views/helperfunctions.dart';
 import 'package:chat_application/views/search.dart';
 import 'package:chat_application/views/signin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,6 +29,9 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   // TextEditingController userNameTextEditingController =
   //  new TextEditingController();
+
+  DataBaseMethods dataBaseMethods = new DataBaseMethods();
+  // Helperfunctions helperfunctions = new Helperfunctions();
 
   TextEditingController emailTextEditingController =
       new TextEditingController();
@@ -99,7 +104,21 @@ class _SignUpState extends State<SignUp> {
                           } else {
                             print('User is signed in!');
 
-                            Navigator.push(
+                            Map<String, String> userInfoMap = {
+                              "email": email,
+                              // "password" : password not saving password for time being
+                            };
+
+                            HelperFunctions.saveUserEmailSharedPreference(
+                                email);
+
+                            dataBaseMethods.uploadUserInfo(userInfoMap);
+
+                            HelperFunctions.saveUserLoggedInSharedPreference(
+                                true);
+
+                            Navigator.pushReplacement(
+                              //Maybe switch this to push replacement
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChatRoom()),

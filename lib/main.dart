@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
 //old main
 
 import 'package:chat_application/services/auth_services.dart';
+import 'package:chat_application/views/search.dart';
 import 'package:chat_application/views/signin.dart';
 
 import 'package:chat_application/views/signup.dart';
@@ -71,7 +72,7 @@ class AuthWrapper extends StatefulWidget {
 class _AuthWrapperState extends State<AuthWrapper> {
   @override
   Widget build(BuildContext context) {
-    return SignUp();
+    return SignIn();
   }
 }
 
