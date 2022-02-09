@@ -19,56 +19,59 @@ class _ChatInformationState extends State<ChatInformation> {
 
     return Scaffold(
       body: Container(
-        child: Column(
-          children: [
-            StreamBuilder<QuerySnapshot>(
-              stream: _usersStream,
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Something went wrong');
-                }
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              StreamBuilder<QuerySnapshot>(
+                stream: _usersStream,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading");
-                }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading");
+                  }
 
-                return ListView(
-                  shrinkWrap: true,
-                  children:
-                      snapshot.data!.docs.map((DocumentSnapshot document) {
-                    Map<String, dynamic> data =
-                        document.data()! as Map<String, dynamic>;
-                    return ListTile(
-                      title: Text(data['message']),
-                      // subtitle: Text(data['username']),
-                    );
-                  }).toList(),
-                );
-              },
-            ),
-            TextField(
-              controller: messageTextEditingController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter a message',
+                  return ListView(
+                    shrinkWrap: true,
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      return ListTile(
+                        title: Text(data['message']),
+                        // subtitle: Text(data['username']),
+                      );
+                    }).toList(),
+                  );
+                },
               ),
-            ),
-            FloatingActionButton(
-              child: const Icon(Icons.search),
-              onPressed: () {
-                final String message = messageTextEditingController.text.trim();
+              TextField(
+                controller: messageTextEditingController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter a message',
+                ),
+              ),
+              FloatingActionButton(
+                child: const Icon(Icons.search),
+                onPressed: () {
+                  final String message =
+                      messageTextEditingController.text.trim();
 
-                if (message.isEmpty) {
-                  print("Message is empty");
-                } else {
-                  FirebaseFirestore.instance
-                      .collection('Chats')
-                      .add({'message': message});
-                }
-              },
-            ),
-          ],
+                  if (message.isEmpty) {
+                    print("Message is empty");
+                  } else {
+                    FirebaseFirestore.instance
+                        .collection('Chats')
+                        .add({'message': message});
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
