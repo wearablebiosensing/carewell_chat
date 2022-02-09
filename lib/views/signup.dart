@@ -1,4 +1,5 @@
 import 'package:chat_application/views/chatRoomsScreen.dart';
+import 'package:chat_application/views/chatinfo.dart';
 import 'package:chat_application/views/search.dart';
 import 'package:chat_application/views/signin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -94,33 +95,32 @@ class _SignUpState extends State<SignUp> {
                         FirebaseAuth.instance
                             .authStateChanges()
                             .listen((User? user) async {
+                          try {
+                            UserCredential userCredential = await FirebaseAuth
+                                .instance
+                                .createUserWithEmailAndPassword(
+                              email: email,
+                              password: password,
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'weak-password') {
+                              print('The password provided is too weak.');
+                            } else if (e.code == 'email-already-in-use') {
+                              print(
+                                  'The account already exists for that email.');
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
                           if (user == null) {
                             print('User is currently signed out!');
                           } else {
                             print('User is signed in!');
 
-                            try {
-                              UserCredential userCredential = await FirebaseAuth
-                                  .instance
-                                  .createUserWithEmailAndPassword(
-                                email: email,
-                                password: password,
-                              );
-                            } on FirebaseAuthException catch (e) {
-                              if (e.code == 'weak-password') {
-                                print('The password provided is too weak.');
-                              } else if (e.code == 'email-already-in-use') {
-                                print(
-                                    'The account already exists for that email.');
-                              }
-                            } catch (e) {
-                              print(e);
-                            }
-
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChatRoom()),
+                                  builder: (context) => ChatInformation()),
                             );
                           }
                         });
