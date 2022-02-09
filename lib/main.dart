@@ -1,31 +1,3 @@
-/*
-import 'package:flutter/material.dart';
-import 'package:chat_application/auth.dart';
-import 'package:chat_application/auth_provider.dart';
-import 'package:chat_application/root_page.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AuthProvider(
-      auth: Auth(),
-      child: MaterialApp(
-        title: 'Flutter login demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: RootPage(),
-      ),
-    );
-  }
-}
-
-*/
-
-//old main
-
 import 'package:chat_application/services/auth_services.dart';
 import 'package:chat_application/views/chatinfo.dart';
 import 'package:chat_application/views/signin.dart';
@@ -48,20 +20,6 @@ void main() async {
   runApp(MyApp());
 }
 
-// class AuthWrapper extends StatelessWidget {
-//   const AuthWrapper({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final user = context.watch<User?>();
-
-//     if (user == null) {
-//       return SignUp();
-//     }
-//     return ChatRoom();
-//   }
-// }
-
 class AuthWrapper extends StatefulWidget {
   const AuthWrapper({Key? key}) : super(key: key);
 
@@ -75,23 +33,6 @@ class _AuthWrapperState extends State<AuthWrapper> {
     return SignUp();
   }
 }
-
-// class AuthWrapper extends StatefulWidget {
-//   const AuthWrapper({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-
-//     bool signedIn = false;
-
-//     if (chatuser != null) {
-
-//       print("signed in as: " + email);
-//       return ChatRoom();
-//     }
-//     return SignUp();
-//   }
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -120,18 +61,5 @@ class MyApp extends StatelessWidget {
           ),
           home: AuthWrapper(),
         ));
-
-/*
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        //primaryColor: Color(0xff145C9E),
-        primaryColor: Colors.blue[800],
-        scaffoldBackgroundColor: Colors.blue[100],
-        primarySwatch: Colors.blue,
-      ),
-      home: SignUp(),
-    ); */
   }
 }

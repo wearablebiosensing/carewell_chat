@@ -14,9 +14,13 @@ FirebaseAuth chatuser = FirebaseAuth.instance;
 String username = '';
 String email = 'Not actually signed in';
 
+
+String message = '';
+
 //Create a database methods file which will update with the user's information.
 //38:00 pt 2 flutter chat app tutorial video
 //I don't think you need to store passwords in firebase
+
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -26,9 +30,6 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  // TextEditingController userNameTextEditingController =
-  //  new TextEditingController();
-
   TextEditingController emailTextEditingController =
       new TextEditingController();
 
@@ -58,8 +59,6 @@ class _SignUpState extends State<SignUp> {
                       hintText: "Password",
                       hintStyle: TextStyle(color: Colors.grey[500])),
                 ),
-                //textField("email"),
-                //textField("password"),
 
                 SizedBox(
                   height: 8,
@@ -69,9 +68,9 @@ class _SignUpState extends State<SignUp> {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: Text(
-                      "Forgot Password?",
+                      message,
                       style:
-                          new TextStyle(color: Colors.grey[700], fontSize: 12),
+                          new TextStyle(color: Colors.red[700], fontSize: 12),
                     ),
                   ),
                 ),
@@ -88,9 +87,15 @@ class _SignUpState extends State<SignUp> {
 
                     if (email.isEmpty) {
                       print("Email is empty");
+                      setState(() {
+                        message = "Email is empty";
+                      });
                     } else {
                       if (password.isEmpty) {
                         print("Password is empty");
+                        setState(() {
+                          message = "Password is empty";
+                        });
                       } else {
                         FirebaseAuth.instance
                             .authStateChanges()
@@ -105,9 +110,16 @@ class _SignUpState extends State<SignUp> {
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'weak-password') {
                               print('The password provided is too weak.');
+                               setState(() {
+                              message = 'The password provided is too weak.';
+                            });
                             } else if (e.code == 'email-already-in-use') {
                               print(
                                   'The account already exists for that email.');
+                               setState(() {
+                              message =
+                                  'The account already exists for that email.';
+                            });
                             }
                           } catch (e) {
                             print(e);
@@ -145,7 +157,6 @@ class _SignUpState extends State<SignUp> {
                             .add({'username': email});
                       }
                     }
-                    // ChatRoom();
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -199,6 +210,7 @@ class _SignUpState extends State<SignUp> {
                 SizedBox(
                   height: 16,
                 ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
