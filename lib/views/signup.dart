@@ -14,13 +14,11 @@ FirebaseAuth chatuser = FirebaseAuth.instance;
 String username = '';
 String email = 'Not actually signed in';
 
-
 String message = '';
 
 //Create a database methods file which will update with the user's information.
 //38:00 pt 2 flutter chat app tutorial video
 //I don't think you need to store passwords in firebase
-
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -110,16 +108,16 @@ class _SignUpState extends State<SignUp> {
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'weak-password') {
                               print('The password provided is too weak.');
-                               setState(() {
-                              message = 'The password provided is too weak.';
-                            });
+                              setState(() {
+                                message = 'The password provided is too weak.';
+                              });
                             } else if (e.code == 'email-already-in-use') {
                               print(
                                   'The account already exists for that email.');
-                               setState(() {
-                              message =
-                                  'The account already exists for that email.';
-                            });
+                              setState(() {
+                                message =
+                                    'The account already exists for that email.';
+                              });
                             }
                           } catch (e) {
                             print(e);

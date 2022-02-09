@@ -56,7 +56,10 @@ class _ChatInformationState extends State<ChatInformation> {
               ),
             ),
             FloatingActionButton(
-              child: const Icon(Icons.search),
+              child: const Icon(
+                Icons.arrow_right_rounded,
+                size: 50,
+              ),
               onPressed: () {
                 final String message = messageTextEditingController.text.trim();
 
