@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
 //old main
 
 import 'package:chat_application/services/auth_services.dart';
+import 'package:chat_application/views/chatinfo.dart';
 import 'package:chat_application/views/signin.dart';
 
 import 'package:chat_application/views/signup.dart';

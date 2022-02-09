@@ -7,6 +7,9 @@ class UserInformation extends StatefulWidget {
 }
 
 class _UserInformationState extends State<UserInformation> {
+  //BELOW STREAM CREATES A WORKING STREAM OF USERNAMES. ALL WE NEED TO DO IS PUT A TEXTFIELD UNDER IT AND
+  //INSTEAD OF DISPLAYING THE CHAT DOCUMENT WE SHOULD DISPLAY THE MESSAGES IN THE CHAT.
+  //BELOW THE LIST VIEW SHOULD BE A TEXTFIELD INTO WHICH THE USER CAN INPUT A TEXTEDITING CONTROLLER THAT GETS UPDATED TO THE CHATS
   final Stream<QuerySnapshot> _usersStream =
       FirebaseFirestore.instance.collection('Users').snapshots();
 

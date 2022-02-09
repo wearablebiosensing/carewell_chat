@@ -1,4 +1,5 @@
 import 'package:chat_application/views/chatRoomsScreen.dart';
+import 'package:chat_application/views/chatinfo.dart';
 import 'package:chat_application/views/search.dart';
 import 'package:chat_application/views/signin.dart';
 import 'package:chat_application/views/userinfo.dart';
@@ -112,7 +113,7 @@ class _SignInState extends State<SignIn> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => UserInformation()),
+                                  builder: (context) => ChatInformation()),
                             );
                           }
                         });
