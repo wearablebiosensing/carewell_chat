@@ -35,6 +35,7 @@ class _ChatInformationState extends State<ChatInformation> {
 
                 return ListView(
                   shrinkWrap: true,
+                  // physics: ScrollPhysics(),
                   children:
                       snapshot.data!.docs.map((DocumentSnapshot document) {
                     Map<String, dynamic> data =
