@@ -4,6 +4,7 @@ import 'package:chat_application/views/search.dart';
 import 'package:chat_application/views/signin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_application/widgets/widget.dart';
 import 'package:chat_application/services/auth_services.dart';
@@ -216,9 +217,19 @@ class _SignUpState extends State<SignUp> {
                       "Already have an account? ",
                       style: TextStyle(color: Colors.black87, fontSize: 14),
                     ),
-                    Text(
-                      "Sign in now",
-                      style: TextStyle(decoration: TextDecoration.underline),
+                    RichText(
+                      text: TextSpan(
+                          text: "Sign In Now",
+                          style:
+                              TextStyle(decoration: TextDecoration.underline),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignIn()),
+                              );
+                            }),
                     ),
                   ],
                 )

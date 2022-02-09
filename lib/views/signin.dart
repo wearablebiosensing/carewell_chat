@@ -2,9 +2,11 @@ import 'package:chat_application/views/chatRoomsScreen.dart';
 import 'package:chat_application/views/chatinfo.dart';
 import 'package:chat_application/views/search.dart';
 import 'package:chat_application/views/signin.dart';
+import 'package:chat_application/views/signup.dart';
 import 'package:chat_application/views/userinfo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_application/widgets/widget.dart';
 import 'package:chat_application/services/auth_services.dart';
@@ -200,9 +202,19 @@ class _SignInState extends State<SignIn> {
                       "Don't have an account? ",
                       style: TextStyle(color: Colors.black87, fontSize: 14),
                     ),
-                    Text(
-                      "Register now",
-                      style: TextStyle(decoration: TextDecoration.underline),
+                    RichText(
+                      text: TextSpan(
+                          text: "Register Now",
+                          style:
+                              TextStyle(decoration: TextDecoration.underline),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignUp()),
+                              );
+                            }),
                     ),
                   ],
                 )
