@@ -1,4 +1,5 @@
 import 'package:chat_application/views/chatRoomsScreen.dart';
+import 'package:chat_application/views/chatinfo.dart';
 import 'package:chat_application/views/search.dart';
 import 'package:chat_application/views/signin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +14,13 @@ FirebaseAuth chatuser = FirebaseAuth.instance;
 String username = '';
 String email = 'Not actually signed in';
 
+
 String message = '';
+
+//Create a database methods file which will update with the user's information.
+//38:00 pt 2 flutter chat app tutorial video
+//I don't think you need to store passwords in firebase
+
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -92,43 +99,62 @@ class _SignUpState extends State<SignUp> {
                       } else {
                         FirebaseAuth.instance
                             .authStateChanges()
-                            .listen((User? user) {
+                            .listen((User? user) async {
+                          try {
+                            UserCredential userCredential = await FirebaseAuth
+                                .instance
+                                .createUserWithEmailAndPassword(
+                              email: email,
+                              password: password,
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'weak-password') {
+                              print('The password provided is too weak.');
+                               setState(() {
+                              message = 'The password provided is too weak.';
+                            });
+                            } else if (e.code == 'email-already-in-use') {
+                              print(
+                                  'The account already exists for that email.');
+                               setState(() {
+                              message =
+                                  'The account already exists for that email.';
+                            });
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
                           if (user == null) {
                             print('User is currently signed out!');
                           } else {
                             print('User is signed in!');
 
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChatRoom()),
+                                  builder: (context) => ChatInformation()),
                             );
                           }
                         });
 
-                        try {
-                          UserCredential userCredential = await FirebaseAuth
-                              .instance
-                              .createUserWithEmailAndPassword(
-                            email: email,
-                            password: password,
-                          );
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            print('The password provided is too weak.');
-                            setState(() {
-                              message = 'The password provided is too weak.';
-                            });
-                          } else if (e.code == 'email-already-in-use') {
-                            print('The account already exists for that email.');
-                            setState(() {
-                              message =
-                                  'The account already exists for that email.';
-                            });
-                          }
-                        } catch (e) {
-                          print(e);
-                        }
+                        /* context
+                            .read<AuthService>()
+                            .login(email, password)
+                            .then((value) async {
+                          chatuser = FirebaseAuth.instance;
+
+                          await FirebaseFirestore.instance
+                              .collection('Users')
+                              .doc(chatuser.currentUser?.uid)
+                              .set({
+                            'uid': chatuser.currentUser?.uid,
+                            'email': email,
+                            'password': password,
+                          });
+                        }); */
+                        FirebaseFirestore.instance
+                            .collection('Users')
+                            .add({'username': email});
                       }
                     }
                   },
